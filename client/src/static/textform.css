@@ -1,0 +1,26 @@
+.ob{
+    padding-top: 4%;
+    margin-left: 4%;
+    font-family: "Times New Roman", Times, serif;
+
+}
+.info{
+    margin-left: 4%;
+    margin-right: 4%;
+    text-align: justify;
+    text-justify: inter-word;
+    font-family: "Times New Roman", Times, serif;
+
+}
+.but{
+    margin-bottom: 2%;
+}
+.bg
+{
+    background-image: url("3.jpeg");
+    height:100%;
+}
+.total
+{
+    height: 700px;
+}
