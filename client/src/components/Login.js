@@ -1,21 +1,19 @@
-import React, { useState,useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import login_img from '../static/login_img.png';
 import '../static/login.css';
 import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
-import {AuthContext} from '../context/AuthContext';
-// import {AuthProvider} from '../context/AuthContext';
-const USER_REGEX= new RegExp(/\W/);
-const PASSWORD_REGEX=new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,30}$');
+import { AuthContext } from '../context/AuthContext';
+const USER_REGEX = new RegExp(/\W/);
+const PASSWORD_REGEX = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,30}$');
 
 
 export default function Login() {
-    const {person,setPerson,setUser,user}=useContext(AuthContext);
+    const { person, setPerson, setUser} = useContext(AuthContext);
     let nav = useNavigate();
-    const personLogin = async (e,res) => {
+    const personLogin = async (e, res) => {
         e.preventDefault();
-        if(USER_REGEX.test(person['username']))
-        {
+        if (USER_REGEX.test(person['username'])) {
             alert('Invalid username');
             return;
         }
@@ -29,17 +27,14 @@ export default function Login() {
         //     password: document.getElementById("password_id").value
         // })
         // console.log("person",person,document.getElementById("username_id").value);
-        await axios.post(`/login/${JSON.stringify(person)}`,{
-            headers:{'Content-Type':'application/json'},//specific data type sent
+        await axios.post('/login', person, {
+            headers: { 'Content-Type': 'application/json' },//specific data type sent
             withCredentials: true
-        } ,(err) => {
-            console.log(err);
         }).then((res) => {
-            console.log(res);
-            const accessToken= res?.data?.accessToken;
-            console.log(accessToken);
-            console.log(res.data);
-
+            // console.log(res);
+            const accessToken = res?.data?.accessToken;
+            // console.log(accessToken);
+            console.log("res",res.data);
             if (res.data.length === 0) {
                 alert("username or password is incorrect");
             }
@@ -47,6 +42,9 @@ export default function Login() {
                 setUser(res.data);
                 nav("/home");
             }
+        }).catch((err) => {
+            alert('Please enter correct username and password');
+            console.log(err);
         });
     }
     return (
@@ -61,7 +59,7 @@ export default function Login() {
                             username: document.getElementById("username_id").value,
                             password: document.getElementById("password_id").value
                         })
-                    }} autoComplete="on"/>
+                    }} autoComplete="on" />
                     <label className="form-label">User name</label>
                 </div>
 

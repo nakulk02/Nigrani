@@ -9,13 +9,13 @@ export default function Home() {
   const [search, changeSearch] = useState('');
   const [searchResult, changeResult] = useState();
   const [nor, changeNor] = useState(-1);
-  const onSubmit = () => {
-    axios.get(`searching/${search}`, (err) => {
-      console.log(err);
-    }).then((response) => {
+  const onSubmit = async () => {
+    await axios.get(`searching/${search}`).then((response) => {
       console.log(response.data);
       changeNor(response.data.length);
       changeResult(response.data);
+    }).catch((err) => {
+      console.log(err);
     });
   }
   return (
