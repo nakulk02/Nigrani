@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "../static/1.jpeg";
-import axios from '../api/axios';
+import api from '../api/axios';
 import "../static/home.css";
 import Navbar from './Navbar';
 
@@ -10,7 +10,7 @@ export default function Home() {
   const [searchResult, changeResult] = useState();
   const [nor, changeNor] = useState(-1);
   const onSubmit = async () => {
-    await axios.get(`searching/${search}`).then((response) => {
+    await api.get(`searching/${search}`).then((response) => {
       console.log(response.data);
       changeNor(response.data.length);
       changeResult(response.data);

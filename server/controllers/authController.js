@@ -15,7 +15,7 @@ const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true
 };
-const maxAge = 60;
+const maxAge = '60s';
 const uri = process.env.MONGODB_URI
 const createToken = (person) => {
     return jwt.sign(
@@ -25,7 +25,6 @@ const createToken = (person) => {
 }
 
 module.exports.login_post = async (req, res) => {
-    console.log(req);
     const person = req.body;
     try {
         let client = new MongoClient(uri, options);
@@ -35,7 +34,6 @@ module.exports.login_post = async (req, res) => {
         const collection = db.collection("credsUses");
         console.log("connection made!!")
         const results = await collection.find({ $and: [{ username: person['username'] }, { password: person['password'] }] }).toArray();
-        console.log("csdc",person);
         if (results.length === 0) {
             console.log("invalid");
             res.status(401).json({ message: 'invalid' });
@@ -43,7 +41,7 @@ module.exports.login_post = async (req, res) => {
         else {
             const accessToken = createToken(person);
             console.log(results, accessToken);
-            // res.cookie('token', accessToken, { httpOnly: true, maxAge: maxAge * 1000 });
+            res.cookie('key', accessToken, { httpOnly: true,maxAge:30000 });
             res.status(200).json({ results, accessToken });
         }
     }
