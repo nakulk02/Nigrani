@@ -8,7 +8,8 @@ import {
 import TextForm from './components/TextForm';
 import Home from './components/Home';
 import Login from './components/Login';
-import {AuthProvider,AuthContext} from './context/AuthContext';
+import Otp from './components/Otp';
+import { AuthProvider, AuthContext } from './context/AuthContext';
 
 function App() {
   return (
@@ -17,8 +18,10 @@ function App() {
         <Router>
           <Routes>
             <Route path="" element={<Login />} />
+            <Route path="/otp" element={<Otp />} />
             <Route path="/about" element={<TextForm />} />
             <Route path="/home" element={<Home />} />
+
           </Routes>
         </Router>
       </AuthProvider>

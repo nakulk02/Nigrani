@@ -16,13 +16,13 @@ const options = {
     useNewUrlParser: true
 };
 const maxAge = '60s';
-const uri = process.env.MONGODB_URI
+const uri = process.env.MONGODB_URI;
 const createToken = (person) => {
     return jwt.sign(
         { person },
         process.env.ACCESS_TOKEN,
         { expiresIn: maxAge });
-}
+};
 
 module.exports.login_post = async (req, res) => {
     const person = req.body;
@@ -32,7 +32,7 @@ module.exports.login_post = async (req, res) => {
         const cl = await clientPromise;
         const db = cl.db("majorProject");
         const collection = db.collection("credsUses");
-        console.log("connection made!!")
+        console.log("connection made!!");
         const results = await collection.find({ $and: [{ username: person['username'] }, { password: person['password'] }] }).toArray();
         if (results.length === 0) {
             console.log("invalid");
@@ -41,7 +41,7 @@ module.exports.login_post = async (req, res) => {
         else {
             const accessToken = createToken(person);
             console.log(results, accessToken);
-            res.cookie('key', accessToken, { httpOnly: true,maxAge:30000 });
+            res.cookie('key', accessToken, { httpOnly: true, maxAge: 30*1000 });//maxAge is in ms
             res.status(200).json({ results, accessToken });
         }
     }
@@ -50,7 +50,8 @@ module.exports.login_post = async (req, res) => {
         res.status(400);
     }
 
-    // Below is for mysql
+    // *** Below is for mysql ***
+
     // con.query('SELECT * FROM persons WHERE username=? and password=?', [person['username'], person['password']], function (err, result) {
     //     let user = [];
     //     if (err) { console.log(err); res.status(401); }
@@ -81,4 +82,10 @@ module.exports.searching_get = (req, res) => {
         if (err) console.log(err);
         res.send(result);
     })
+};
+
+module.exports.logout_get = (req, res) => {
+    console.log("logged_out: ",req.cookies);
+    res.clearCookie('key');
+    res.status(200).json({message:"hello"});
 };

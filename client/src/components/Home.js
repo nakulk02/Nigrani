@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "../static/1.jpeg";
 import api from '../api/axios';
 import "../static/home.css";
 import Navbar from './Navbar';
-
+import { AuthContext } from '../context/AuthContext';
 
 export default function Home() {
+  const nav = useNavigate();
+  const { isLoggedIn } = useContext(AuthContext);
+  useEffect(() => {
+    if (isLoggedIn == false & document?.cookie?.key === undefined) {
+      return nav("/");
+    }
+  }, [isLoggedIn]);
+  
   const [search, changeSearch] = useState('');
   const [searchResult, changeResult] = useState();
   const [nor, changeNor] = useState(-1);
@@ -20,11 +29,11 @@ export default function Home() {
   }
   return (
     <>
-    
-    <Navbar />
-    <div className='bg total'>
 
-      {/* <form>
+      <Navbar />
+      <div className='bg total'>
+
+        {/* <form>
         <div className="mb-3 mx-3">
           <label for="exampleInputEmail1" className="form-label">Email address</label>
           <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
@@ -40,42 +49,42 @@ export default function Home() {
         <button type="submit" className="mx-3 btn btn-primary">Submit</button>
       </form> */}
 
-      <div className="my-5">
-        <div className="form-outline mx-auto my-5">
-          <input type="search" id="form1" autoComplete='off' onChange={(e) => {
-            changeSearch(e.target.value);
-          }} onKeyDown={(e) => {
-            if (e.key === 'Enter' && search!=='') {
-              if (nor === 0) {
-                changeNor(-1);
+        <div className="my-5">
+          <div className="form-outline mx-auto my-5">
+            <input type="search" id="form1" autoComplete='off' onChange={(e) => {
+              changeSearch(e.target.value);
+            }} onKeyDown={(e) => {
+              if (e.key === 'Enter' && search !== '') {
+                if (nor === 0) {
+                  changeNor(-1);
+                }
+                onSubmit();
               }
-              onSubmit();
-            }
-          }}
-            className="form-control" placeholder='Search location' />
-                    <button type="button" className="bt" onClick={onSubmit}><h5>Submit</h5></button>
+            }}
+              className="form-control" placeholder='Search location' />
+            <button type="button" className="bt" onClick={onSubmit}><h5>Submit</h5></button>
 
+          </div>
         </div>
-      </div>
-      <div className='my-3'>
-        <ul>
-          {(searchResult !== undefined) && (searchResult.map(searchResult => (
-            <li>
-              <div className="card my-3 mx-3">
-                {/* <img src="..." className="card-img-top" alt="..." /> */}
-                <div className="card-body">
-                  <h5 className="card-title">{searchResult.city}</h5>
-                  <p>state : {searchResult.state}</p>
-                  <p>capacity : {searchResult.capacity}</p>
-                  <p>Information on the facility in {searchResult.city}.</p>
-                  {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+        <div className='my-3'>
+          <ul>
+            {(searchResult !== undefined) && (searchResult.map(searchResult => (
+              <li>
+                <div className="card my-3 mx-3">
+                  {/* <img src="..." className="card-img-top" alt="..." /> */}
+                  <div className="card-body">
+                    <h5 className="card-title">{searchResult.city}</h5>
+                    <p>state : {searchResult.state}</p>
+                    <p>capacity : {searchResult.capacity}</p>
+                    <p>Information on the facility in {searchResult.city}.</p>
+                    {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+                  </div>
                 </div>
-              </div>
-            </li>
-          )))}
-        </ul>
-        {(nor === 0) && <h4 className="mx-4">No results</h4>}
-      </div>
+              </li>
+            )))}
+          </ul>
+          {(nor === 0) && <h4 className="mx-4">No results</h4>}
+        </div>
       </div>
     </>
 

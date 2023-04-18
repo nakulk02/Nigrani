@@ -6,20 +6,7 @@ const app = express();
 const cors = require('cors');
 const cookieParser=require('cookie-parser');
 const bodyParser = require('body-parser');
-// const mysql = require('mysql2');
-// var con = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: process.env.SQL_PASSWORD,
-//     database: "login"
-// });
-// con.connect(function (err) {
-//     if (err) {
-//         console.log("no sql");
-//         throw err;
-//     }
-//     console.log("Connected!");
-// });
+
 const corsOptions = {
     origin: 'http://localhost:3001',
     credentials: true,            //access-control-allow-credentials:true

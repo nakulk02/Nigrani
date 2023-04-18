@@ -9,7 +9,7 @@ const PASSWORD_REGEX = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%
 
 
 export default function Login() {
-    const { person, setPerson, setUser } = useContext(AuthContext);
+    const { person, setPerson, setUser,setIsLoggedIn } = useContext(AuthContext);
     let nav = useNavigate();
     const personLogin = async (e, res) => {
         e.preventDefault();
@@ -31,14 +31,15 @@ export default function Login() {
             headers: { 'Content-Type': 'application/json' },//specific data type sent
             withCredentials: true
         }).then((res) => {
-            // console.log(res);
+            console.log(res);
             const accessToken = res?.data?.accessToken;
             // console.log(accessToken);
-            console.log("res", res.data);
+            // console.log("res", res);
             if (res.data.length === 0) {
                 alert("username or password is incorrect");
             }
             else {
+                setIsLoggedIn(true);
                 setUser(res.data);
                 nav("/home");
             }
