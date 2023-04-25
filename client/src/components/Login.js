@@ -9,7 +9,7 @@ const PASSWORD_REGEX = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%
 
 
 export default function Login() {
-    const { person, setPerson, setUser,setIsLoggedIn } = useContext(AuthContext);
+    const { person, setPerson, setIsLoggedIn } = useContext(AuthContext);
     let nav = useNavigate();
     const personLogin = async (e, res) => {
         e.preventDefault();
@@ -21,7 +21,7 @@ export default function Login() {
         // {
         //     alert('Invalid password');
         //     return;
-        // }
+        //
         // setPerson({
         //     username: document.getElementById("username_id").value,
         //     password: document.getElementById("password_id").value
@@ -34,14 +34,13 @@ export default function Login() {
             console.log(res);
             const accessToken = res?.data?.accessToken;
             // console.log(accessToken);
-            // console.log("res", res);
+            // console.log("res", res); 
             if (res.data.length === 0) {
                 alert("username or password is incorrect");
             }
             else {
                 setIsLoggedIn(true);
-                setUser(res.data);
-                nav("/home");
+                nav("/otp");
             }
         }).catch((err) => {
             alert('Please enter correct username and password');
@@ -55,7 +54,7 @@ export default function Login() {
                     <img src={login_img} alt="Avatar" className="avatar" />
                 </div>
                 <div className="inpu">
-                    <input id="username_id" type="text" required={true} onChange={(e) => {
+                    <input id="username_id" type="text" required={true} onChange={(e) => {  
                         setPerson({
                             username: document.getElementById("username_id").value,
                             password: document.getElementById("password_id").value

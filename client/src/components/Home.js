@@ -8,13 +8,14 @@ import { AuthContext } from '../context/AuthContext';
 
 export default function Home() {
   const nav = useNavigate();
-  const { isLoggedIn } = useContext(AuthContext);
+  const { hasPassedOTP, isLoggedIn } = useContext(AuthContext);
   useEffect(() => {
-    if (isLoggedIn == false & document?.cookie?.key === undefined) {
+    if (isLoggedIn === false | hasPassedOTP === false) {
+      console.log("idhar", isLoggedIn, hasPassedOTP);
       return nav("/");
     }
-  }, [isLoggedIn]);
-  
+  }, [isLoggedIn, hasPassedOTP]);
+
   const [search, changeSearch] = useState('');
   const [searchResult, changeResult] = useState();
   const [nor, changeNor] = useState(-1);

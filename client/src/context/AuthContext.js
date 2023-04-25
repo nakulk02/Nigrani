@@ -18,12 +18,14 @@ export const AuthProvider = ({ children }) => {
     const [mode, setMode] = useState(lightMode);
     const [person, setPerson] = useState({
         username: "",
-        password: ""
+        password: "",
+        money:""
     });
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [hasPassedOTP, setHasPassedOTP] = useState(false);
     return (
         <AuthContext.Provider value={{
-            mode, setMode, person, setPerson, user, setUser, isLoggedIn, setIsLoggedIn
+            mode, setMode, person, setPerson, user, setUser, isLoggedIn, setIsLoggedIn,hasPassedOTP,setHasPassedOTP
         }}>
             {children}
         </AuthContext.Provider>

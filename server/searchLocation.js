@@ -8,7 +8,7 @@ const cookieParser=require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const corsOptions = {
-    origin: 'http://localhost:3001',
+    origin: 'http://localhost:3000',
     credentials: true,            //access-control-allow-credentials:true
     optionSuccessStatus: 200
 }
