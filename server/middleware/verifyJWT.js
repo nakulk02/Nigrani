@@ -14,6 +14,7 @@ const verifyJWT = (req, res, next) => {
         req.user = decoded;
         next();
     });*/  
+    
     const token = req.cookies.key;
     console.log(req.cookies);
     if (!req.cookies.key) {
