@@ -5,6 +5,7 @@ import api from '../api/axios';
 import "../static/home.css";
 import Navbar from './Navbar';
 import { AuthContext } from '../context/AuthContext';
+import { GoogleMap, useLoadScript,Marker } from '@react-google-maps/api'
 
 export default function Home() {
   const nav = useNavigate();
@@ -28,10 +29,46 @@ export default function Home() {
       console.log(err);
     });
   }
+  
+  // maps settings
+  let { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+
+  })
+
   return (
     <>
 
       <Navbar />
+
+{/* 
+
+      <!-- ======= Hero Section ======= -->
+      <section id="hero" class="d-flex align-items-center">
+
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+              <h1>Electronic Portable Shelter</h1>
+              <h2>Helping the Mankind</h2>
+              <div class="d-flex justify-content-center justify-content-lg-start">
+                <a href="#about" class="btn-get-started scrollto">Get Started</a>
+                <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+              </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+              <img src="assets/img/hero-img.png" class="img-fluid animated" alt="">
+            </div>
+          </div>
+        </div>
+
+      </section>
+      <!-- End Hero --> */}
+
+
+
+
+
       <div className='bg total'>
 
         {/* <form>
@@ -78,7 +115,10 @@ export default function Home() {
                     <p>state : {searchResult.state}</p>
                     <p>capacity : {searchResult.capacity}</p>
                     <p>Information on the facility in {searchResult.city}.</p>
+                    { isLoaded && <GoogleMap zoom={10} center={{lat: 44,lng:-80}} mapContainerClassName='map-container'></GoogleMap>}
+                    {/* <iframe src="https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d3773.8645178106567!2d76.7807!3d30.7649!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTjCsDU2JzEyLjEiTiA3MsKwNDknMTkuNiJF!5e0!3m2!1sen!2sin!4v1682444090022!5m2!1sen!2sin" width="600" height="450" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe> */}
                     {/* <a href="#" className="btn btn-primary">Go somewhere</a> */}
+                    <iframe id="map"></iframe>
                   </div>
                 </div>
               </li>
