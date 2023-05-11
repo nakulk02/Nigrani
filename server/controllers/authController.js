@@ -93,13 +93,31 @@ module.exports.login_post = async (req, res) => {
 };
 
 
-module.exports.searching_get = (req, res) => {
+module.exports.searching_get = async (req, res) => {
     console.log("reached");
     const searched = req.params.search.toLowerCase();
-    con.query('SELECT * FROM locations WHERE state=(?)', [searched], function (err, result) {
-        if (err) console.log(err);
-        res.send(result);
-    })
+    try {
+
+        let client = new MongoClient(uri, options);
+        const clientPromise = client.connect();
+        const cl = await clientPromise;
+        const db = cl.db("majorProject");
+        const collection = db.collection("loca");
+        console.log("connection made!!");
+        const results = await collection.find({ state: searched }).toArray();
+        console.log(results);
+        res.send(results);
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.send(404);
+    }
+    // con.query('SELECT * FROM locations WHERE state=(?)', [searched], function (err, result) {
+    //     if (err) console.log(err);
+    //     console.log(result);
+    //     res.send(result);
+    // })
 };
 
 module.exports.logout_get = (req, res) => {

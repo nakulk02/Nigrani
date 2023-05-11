@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext,useEffect } from 'react';
 import login_img from '../static/login_img.png';
 import '../static/login.css';
 import api from '../api/axios';
@@ -9,8 +9,18 @@ const PASSWORD_REGEX = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%
 
 
 export default function Login() {
-    const { person, setPerson, setIsLoggedIn } = useContext(AuthContext);
+    const { person, setPerson, setIsLoggedIn,isLoggedIn,hasPassedOTP } = useContext(AuthContext);
     let nav = useNavigate();
+    useEffect(() => {
+        if (isLoggedIn === true & hasPassedOTP === true) {
+            console.log("idhar", isLoggedIn, hasPassedOTP);
+            return nav("/home");
+        }
+        else if (isLoggedIn === true) {
+            console.log("idhar", isLoggedIn, hasPassedOTP);
+            return nav("/otp");
+        }
+    },[isLoggedIn,hasPassedOTP]);
     const personLogin = async (e, res) => {
         e.preventDefault();
         if (USER_REGEX.test(person['username'])) {
@@ -54,7 +64,7 @@ export default function Login() {
                     <img src={login_img} alt="Avatar" className="avatar" />
                 </div>
                 <div className="inpu">
-                    <input id="username_id" type="text" required={true} onChange={(e) => {  
+                    <input id="username_id" type="text" required={true} onChange={(e) => {
                         setPerson({
                             username: document.getElementById("username_id").value,
                             password: document.getElementById("password_id").value

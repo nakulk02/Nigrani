@@ -26,6 +26,7 @@ const verifyJWT = (req, res, next) => {
             process.env.ACCESS_TOKEN,
             (err, decoded) => {
                 if (err) res.sendStatus(403);// invalid token
+                console.log(decoded);
                 req.user = decoded.person['username'];
                 next();
             }
