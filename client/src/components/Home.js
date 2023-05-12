@@ -21,17 +21,27 @@ export default function Home() {
       console.log("idhar", isLoggedIn, hasPassedOTP);
       return nav("/");
     }
-  }, [isLoggedIn, hasPassedOTP, searchResult]);
+  }, [isLoggedIn, hasPassedOTP]);
   // const iframeData = document.getElementById('map');
-  const [nor, changeNor] = useState(-1);
-  const onSubmit = async () => {
-    await api.get(`searching/${search}`).then((response) => {
-      console.log(response.data);
-      changeNor(response.data.length);
-      changeResult(response.data);
-    }).catch((err) => {
-      console.log(err);
-    });
+  // const [nor, changeNor] = useState(-1);
+  // let searchResult;
+  // let search;
+  let nor=-1;
+  // let flag = false;
+  let temp = null;  
+  const onSubmit = () => {
+    while(temp !== null){
+      clearInterval(temp);
+    }
+    temp = setInterval( ()=>{
+      api.get(`searching/${search}`).then((response) => {
+        console.log(response.data);
+        nor = response.data.length;
+        changeResult(response.data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    },3000);
   }
   // const mapChange=()=>{
     // }
@@ -86,12 +96,13 @@ export default function Home() {
 
         <div className="my-5">
           <div className="form-outline mx-auto my-5">
-            <input type="search" id="form1" autoComplete='off' onChange={(e) => {
-              changeSearch(e.target.value);
+                changeSearch(e.target.value);
+            <input type="search" id="form1" autoComplete='off' onChange={(e)=>{
+                changeSearch(e.target.value);
             }} onKeyDown={(e) => {
               if (e.key === 'Enter' && search !== '') {
                 if (nor === 0) {
-                  changeNor(-1);
+                  nor = -1;
                 }
                 onSubmit();
               }
