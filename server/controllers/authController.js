@@ -1,13 +1,13 @@
 const { MongoClient } = require('mongodb');
 
-const mysql = require('mysql2');
+// const mysql = require('mysql2');
 
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: process.env.SQL_PASSWORD,
-    database: "login"
-});
+// var con = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: process.env.SQL_PASSWORD,
+//     database: "login"
+// });
 
 const jwt = require('jsonwebtoken');
 const options = {
@@ -45,10 +45,10 @@ module.exports.login_post = async (req, res) => {
         else {
             const new_otp = Math.floor(Math.random() * 899991) + 100000;
             console.log(new_otp);
-            // sms.messages
-            //     .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: '+918699996848' })
-            //     .then(message => console.log(message))
-            //     .catch((err) => { console.log(err); });
+            sms.messages
+                .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: '+918699996848' })
+                .then(message => console.log(message))
+                .catch((err) => { console.log(err); });
             collection.updateOne({ $and: [{ username: person['username'] }, { password: person['password'] }] }, { $set: { otp: new_otp } });
             const accessToken = createToken(person);
             console.log(results, accessToken);
@@ -148,10 +148,10 @@ module.exports.resend_post = async (req, res) => {
         console.log("connection made!!");
         const new_otp = Math.floor(Math.random() * 899991) + 100000;
         console.log(new_otp);
-        // sms.messages
-        //     .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: '+918699996848' })
-        //     .then(message => console.log(message))
-        //     .catch((err) => { console.log(err); });
+        sms.messages
+            .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: '+918699996848' })
+            .then(message => console.log(message))
+            .catch((err) => { console.log(err); });
         collection.updateOne({ $and: [{ username: per['username'] }, { password: per['password'] }] }, { $set: { otp: new_otp } });
         res.status(200);
     }

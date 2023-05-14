@@ -18,6 +18,6 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(authRoutes);
 
-app.listen('8000', (err) => {
+app.listen('8001', (err) => {
     if (err) console.log("no connection");
 });

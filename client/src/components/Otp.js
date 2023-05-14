@@ -9,11 +9,11 @@ import { useNavigate } from 'react-router-dom';
 export default function Otp() {
     const nav = useNavigate();
     const { setHasPassedOTP, isLoggedIn, setUser, person } = useContext(AuthContext);
-    useEffect(() => {
-        if (isLoggedIn === false) {
-            return nav("/");
-        }
-    }, [isLoggedIn]);
+    // useEffect(() => {
+    //     if (isLoggedIn === false) {
+    //         return nav("/");
+    //     }
+    // }, [isLoggedIn]);
     const [OTP, setOTP] = useState();
     const resendOTP = async (e) => {
         e.preventDefault();
