@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Navbar() {
-    const { setUser, setIsLoggedIn } = useContext(AuthContext);
+    const { setUser, setIsLoggedIn, setHasPassedOTP } = useContext(AuthContext);
     let nav = useNavigate();
     const handleLogout = () => {
         api.get('/logout', {
@@ -18,6 +18,7 @@ export default function Navbar() {
         }).then((res) => {
             console.log(res);
             setIsLoggedIn(false);
+            setHasPassedOTP(false);
             setUser();
             nav("/");
         }).catch((err) => {

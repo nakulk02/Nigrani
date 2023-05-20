@@ -14,7 +14,7 @@ const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true
 };
-const maxAge = '60s';
+const maxAge = '24h';
 const uri = process.env.MONGODB_URI;
 const createToken = (person) => {
     return jwt.sign(
@@ -45,10 +45,10 @@ module.exports.login_post = async (req, res) => {
         else {
             const new_otp = Math.floor(Math.random() * 899991) + 100000;
             console.log(new_otp);
-            sms.messages
-                .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: '+918699996848' })
-                .then(message => console.log(message))
-                .catch((err) => { console.log(err); });
+            // sms.messages
+            //     .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: '+918699996848' })
+            //     .then(message => console.log(message))
+            //     .catch((err) => { console.log(err); });
             collection.updateOne({ $and: [{ username: person['username'] }, { password: person['password'] }] }, { $set: { otp: new_otp } });
             const accessToken = createToken(person);
             console.log(results, accessToken);
@@ -93,13 +93,30 @@ module.exports.login_post = async (req, res) => {
 };
 
 
-module.exports.searching_get = (req, res) => {
+module.exports.searching_get = async (req, res) => {
     console.log("reached");
     const searched = req.params.search.toLowerCase();
-    con.query('SELECT * FROM locations WHERE state=(?)', [searched], function (err, result) {
-        if (err) console.log(err);
-        res.send(result);
-    })
+    try {
+
+        let client = new MongoClient(uri, options);
+        const clientPromise = client.connect();
+        const cl = await clientPromise;
+        const db = cl.db("majorProject");
+        const collection = db.collection("loca");
+        console.log("connection made!!");
+        const results = await collection.find({ state: searched }).toArray();
+        console.log(results);
+        res.send(results);
+    }
+    catch(err)
+    {
+        console.log(err);
+        res.send(404);
+    }
+    // con.query('SELECT * FROM locations WHERE state=(?)', [searched], function (err, result) {
+    //     if (err) console.log(err);
+    //     res.send(result);
+    // })
 };
 
 module.exports.logout_get = (req, res) => {
@@ -148,10 +165,10 @@ module.exports.resend_post = async (req, res) => {
         console.log("connection made!!");
         const new_otp = Math.floor(Math.random() * 899991) + 100000;
         console.log(new_otp);
-        sms.messages
-            .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: '+918699996848' })
-            .then(message => console.log(message))
-            .catch((err) => { console.log(err); });
+        // sms.messages
+        //     .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: '+918699996848' })
+        //     .then(message => console.log(message))
+        //     .catch((err) => { console.log(err); });
         collection.updateOne({ $and: [{ username: per['username'] }, { password: per['password'] }] }, { $set: { otp: new_otp } });
         res.status(200);
     }
