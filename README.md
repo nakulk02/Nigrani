@@ -1,4 +1,4 @@
-# Site Status Monitoring App
+# Nigrani
 A full-stack web application built with React.js and Node.js for monitoring the status of various organizational sites. This application can be adapted for different use cases, such as tracking the availability of hospital beds or locating the closest available hotel rooms.
 
 ## Features
@@ -8,9 +8,9 @@ User-Friendly Interface: Designed with React.js to provide a seamless, interacti
 Backend Integration: Node.js server to manage and serve data effectively.
 ## Installation
 Clone the repository:
-git clone https://github.com/nakulk02/site-status-monitoring-app.git
+git clone https://github.com/nakulk02/Nigrani.git
 
-cd site-status-monitoring-app
+cd Nigrani
 # Install server dependencies
 cd server
 
