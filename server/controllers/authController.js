@@ -137,10 +137,10 @@ module.exports.resend_post = async (req, res) => {
         console.log("connection made!!");
         const new_otp = Math.floor(Math.random() * 899991) + 100000;
         console.log(new_otp);
-        // sms.messages
-        //     .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: '+918699996848' })
-        //     .then(message => console.log(message))
-        //     .catch((err) => { console.log(err); });
+        sms.messages
+            .create({ body: 'Your Otp is : ' + new_otp, from: '+16813256911', to: per.mobile })
+            .then(message => console.log(message))
+            .catch((err) => { console.log(err); });
         collection.updateOne({ $and: [{ username: per['username'] }, { password: per['password'] }] }, { $set: { otp: new_otp } });
         res.status(200);
     }
