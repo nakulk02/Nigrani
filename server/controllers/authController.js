@@ -61,35 +61,6 @@ module.exports.login_post = async (req, res) => {
         console.log(err);
         res.status(400);
     }
-
-    // *** Below is for mysql ***
-    // try {
-    //     con.query('SELECT * FROM persons WHERE username=? and password=?', [person['username'], person['password']], function (err, result) {
-    //         let user = [];
-    //         if (err) { console.log(err); res.status(401); }
-    //         console.log("res:", result);
-    //         // res.send(result);
-    //         // user.push(result[0]);
-    //         // console.log(user, user.length);
-    //         if (result.length === 0) {
-    //             console.log("invalid");
-    //             res.status(404).json({ message: 'invalid' });
-    //         }
-    //         else {
-    //             const accessToken = jwt.sign(
-    //                 { 'username': person['username'] },
-    //                 process.env.ACCESS_TOKEN,
-    //                 { expiresIn: '30s' });
-    //             res.cookie('key', accessToken, { httpOnly: true, maxAge: 30*1000 });//maxAge is in ms
-    //             console.log(result, accessToken);
-    //             res.json({ result, accessToken });
-    //         }
-    //     })
-    // }
-    // catch (err) {
-    //     console.log(err);
-    //     res.status(400);
-    // }
 };
 
 
