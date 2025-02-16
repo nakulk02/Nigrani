@@ -43,12 +43,12 @@ export default function Otp() {
         ).catch((err) => {
             setHasPassedOTP(false);
             console.log(err);
-            // api.post('/resend_otp', person).then(() => {
-            //     alert('A new Otp has been sent to the registered mobile number.');
-            // }).catch((err) => {
-            //     console.log(err);
-            //     alert('A problem has occured while sending OTP.');
-            // })
+            api.post('/resend_otp', person).then(() => {
+                alert('A new Otp has been sent to the registered mobile number.');
+            }).catch((err) => {
+                console.log(err);
+                alert('A problem has occured while sending OTP.');
+            })
             resendOTP();
 
         })
