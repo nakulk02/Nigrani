@@ -31,17 +31,3 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
-// const [person, setPerson] = useState({
-//     username: "vikram_singh",
-//     password: "vikram@2"
-// });
-// useEffect(() => {
-//     if (mode.time === lightMode.time) {
-//         setMode(darkMode);
-//         document.body.style.backgroundColor = "#1c1b30";
-//     }
-//     else {
-//         setMode(lightMode);
-//         document.body.style.backgroundColor = "white";
-//     }
-// }, [mode]);
